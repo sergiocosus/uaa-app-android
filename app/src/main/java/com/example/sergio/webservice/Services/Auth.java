@@ -47,5 +47,24 @@ public class Auth extends WebService {
                 dataReadyListener.onError(statusCode, headers, responseString, throwable);
             }
         });
+
+    }
+
+    public static void logout(final DataReadyListener dataReadyListener){
+        get("auth/logout", new JsonCustomHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                dataReadyListener.onSuccess(null);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String
+                    responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.i("Code", "" + statusCode);
+                dataReadyListener.onError(statusCode, headers, responseString, throwable);
+            }
+        });
     }
 }

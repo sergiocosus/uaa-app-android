@@ -48,13 +48,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.btnCrearRegistro:
-                        Building.getBuildings(new DataReadyListener() {
+                        Auth.logout(new DataReadyListener() {
                             @Override
                             public void onSuccess(List objects) {
-                                if (objects != null) {
-                                    Building building = (Building) objects.get(0);
-                                    Toast.makeText(MainActivity.this, building.name, Toast.LENGTH_SHORT).show();
-                                }
+                                Log.i(DEBUGTAG,"Deslogueado!");
                             }
 
                             @Override
@@ -83,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         ExamSchedule.getExamSchedules(new DataReadyListener() {
                             @Override
                             public void onSuccess(List objects) {
+
                                 Toast.makeText(MainActivity.this, "Datos obtenidos de Horario de Examnes", Toast.LENGTH_LONG).show();
                             }
 
