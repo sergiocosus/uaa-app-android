@@ -1,4 +1,4 @@
-package com.example.sergio.webservice;
+package com.example.sergio.webservice.Services;
 
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package com.example.sergio.webservice;
+package com.example.sergio.webservice.Services;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
