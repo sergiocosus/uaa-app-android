@@ -2,6 +2,8 @@ package com.example.sergio.webservice.Services;
 
 import android.util.Log;
 
+import com.example.sergio.webservice.Database.AcademicCalendarSQLite;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,21 +24,25 @@ public class AcademicCalendar extends WebService {
     public Date endAt;
     public String name;
 
+    public String beginAtStr;
+    public String endAtStr;
 
     protected final static String DEBUGTAG = "@AcademicCalendar";
     public static List<AcademicCalendar> lastRequest = null;
 
-    public AcademicCalendar(JSONObject jo){
-        try{
-            id = jo.getInt("id");
-            beginAt = toDate(jo.getString("begin_at"));
-            endAt  = toDate(jo.getString("end_at"));
-            name  = jo.getString("name");
+    public AcademicCalendar(int id, String name, String beginAtStr, String endAtStr) {
+        this.id = id;
+        this.name = name;
+        this.beginAtStr = beginAtStr;
+        this.endAtStr = endAtStr;
+        this.beginAt = toDate(beginAtStr);
+        this.endAt  = toDate(endAtStr);
+        Log.i(DEBUGTAG,name);
+    }
 
-            Log.i(DEBUGTAG,name);
-        }catch (JSONException e){
-            Log.e(DEBUGTAG,e.getMessage());
-        }
+    public AcademicCalendar(JSONObject jo) throws JSONException {
+        this( jo.getInt("id"),jo.getString("name"),jo.getString("begin_at"),jo.getString("end_at"));
+
     }
 
     public static void getAcademicCalendar(final DataReadyListener dataReadyListener){
@@ -45,10 +51,16 @@ public class AcademicCalendar extends WebService {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
                 List<AcademicCalendar> thisList = new ArrayList<>();
                 try {
+                    AcademicCalendarSQLite sql = new AcademicCalendarSQLite(context, "app.db",null,1);
+                    sql.deleteAll();
                     for (int i = 0; i < response.length(); i++) {
-                        thisList.add(new AcademicCalendar(response.getJSONObject(i)));
+                        AcademicCalendar academicCalendar = new AcademicCalendar(response.getJSONObject(i));
+                        thisList.add(academicCalendar);
+                        sql.insert(academicCalendar);
                     }
                     lastRequest = thisList;
+                    List list = sql.getAll();
+                    Log.e("DATABASE",((AcademicCalendar)list.get(0)).name);
                     dataReadyListener.onSuccess(thisList);
                 } catch (JSONException e) {
                     Log.e(DEBUGTAG, e.getMessage());
