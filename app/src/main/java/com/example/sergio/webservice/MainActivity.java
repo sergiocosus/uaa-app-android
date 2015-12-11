@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sergio.webservice.Services.AcademicCalendar;
 import com.example.sergio.webservice.Services.Auth;
 import com.example.sergio.webservice.Services.Building;
 import com.example.sergio.webservice.Services.DataReadyListener;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case R.id.btnBorrarRegistro:
-                        Schedule.getSchedules(new DataReadyListener() {
+                        AcademicCalendar.getAcademicCalendar(new DataReadyListener() {
                             @Override
                             public void onSuccess(List objects) {
                                 Toast.makeText(MainActivity.this, "Datos obtenidos de Horario de Horarios de clases", Toast.LENGTH_LONG).show();
