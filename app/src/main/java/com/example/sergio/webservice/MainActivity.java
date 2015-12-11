@@ -53,7 +53,10 @@ public class MainActivity extends AppCompatActivity {
                         Building.getBuildings(new DataReadyListener() {
                             @Override
                             public void onSuccess(List objects) {
-
+                                if(objects != null){
+                                    Building building = (Building)objects.get(0);
+                                    Toast.makeText(MainActivity.this, building.name, Toast.LENGTH_SHORT).show();
+                                }
                             }
 
                             @Override

@@ -1,5 +1,6 @@
 package com.example.sergio.webservice;
 
+import android.os.Build;
 import android.util.Log;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -24,6 +25,7 @@ public class Building extends WebService {
     public double latitude;
     public double longitude;
 
+    public List<Building> lastRequest;
 
     public Building(JSONObject jo){
         try{
@@ -31,7 +33,6 @@ public class Building extends WebService {
             name  = jo.getString("name");
             latitude = jo.getDouble("latitude");
             longitude = jo.getDouble("longitude");
-            Log.i("asdf",name);
         }catch (JSONException e){
             Log.e(DEBUGTAG,e.getMessage());
         }
@@ -44,25 +45,16 @@ public class Building extends WebService {
                 List<Building> buildingList = new ArrayList<>();
                 try {
                     for (int i = 0; i < response.length(); i++) {
-                        JSONObject jsonObjCar = response.getJSONObject(i);
-                        buildingList.add(new Building(jsonObjCar));
+                        buildingList.add(new Building(response.getJSONObject(i)));
                     }
-                    final StringBuilder output = new StringBuilder("");
-                    for (Building bu : buildingList) {
-                        output.append("id: ")
-                                .append(bu.id)
-                                .append(" - ")
-                                .append(bu.name)
-                                .append('\n');
-                    }
+
                     dataReadyListener.onSuccess(buildingList);
 
                 } catch (JSONException e) {
                     Log.e(DEBUGTAG, e.getMessage());
+                    dataReadyListener.onSuccess(null);
                 }
             }
-
-
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
