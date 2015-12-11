@@ -23,20 +23,11 @@ import cz.msebera.android.httpclient.protocol.HTTP;
  */
 public class Auth extends WebService {
 
-    public int id;
-    public String name;
-    public double latitude;
-    public double longitude;
-
-    public static List<Auth> lastRequest = null;
-
-
-
-    public static void login(String id, String passwordfinal, final DataReadyListener dataReadyListener){
+    public static void login(String id, String password, final DataReadyListener dataReadyListener){
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("password", "070993");
-            jsonObject.put("id", "150795");
+            jsonObject.put("password",password);
+            jsonObject.put("id", id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -52,7 +43,7 @@ public class Auth extends WebService {
             public void onFailure(int statusCode, Header[] headers, String
                     responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
-                Log.i("Code",""+statusCode);
+                Log.i("Code", "" + statusCode);
                 dataReadyListener.onError(statusCode, headers, responseString, throwable);
             }
         });
