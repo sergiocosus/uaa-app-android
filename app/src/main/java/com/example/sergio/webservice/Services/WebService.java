@@ -33,6 +33,7 @@ public class WebService {
     protected static AsyncHttpClient client;
 
     protected static Context context;
+    protected static String database = "app.db";
 
     public static void setContext(Context contexto){
         context = contexto;

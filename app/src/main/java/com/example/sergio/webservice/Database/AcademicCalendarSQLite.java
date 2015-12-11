@@ -28,7 +28,6 @@ public class AcademicCalendarSQLite extends SQLiteOpenHelper {
             "PRIMARY KEY (id))";
 
 
-
     public AcademicCalendarSQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }

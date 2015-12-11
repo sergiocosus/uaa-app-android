@@ -42,7 +42,6 @@ public class AcademicCalendar extends WebService {
 
     public AcademicCalendar(JSONObject jo) throws JSONException {
         this( jo.getInt("id"),jo.getString("name"),jo.getString("begin_at"),jo.getString("end_at"));
-
     }
 
     public static void getAcademicCalendar(final DataReadyListener dataReadyListener){
@@ -51,7 +50,7 @@ public class AcademicCalendar extends WebService {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
                 List<AcademicCalendar> thisList = new ArrayList<>();
                 try {
-                    AcademicCalendarSQLite sql = new AcademicCalendarSQLite(context, "app.db",null,1);
+                    AcademicCalendarSQLite sql = new AcademicCalendarSQLite(context, database,null,1);
                     sql.deleteAll();
                     for (int i = 0; i < response.length(); i++) {
                         AcademicCalendar academicCalendar = new AcademicCalendar(response.getJSONObject(i));
@@ -59,8 +58,8 @@ public class AcademicCalendar extends WebService {
                         sql.insert(academicCalendar);
                     }
                     lastRequest = thisList;
-                    List list = sql.getAll();
-                    Log.e("DATABASE",((AcademicCalendar)list.get(0)).name);
+
+                    Log.d("DATABASE",(sql.getAll().get(0).name));
                     dataReadyListener.onSuccess(thisList);
                 } catch (JSONException e) {
                     Log.e(DEBUGTAG, e.getMessage());
