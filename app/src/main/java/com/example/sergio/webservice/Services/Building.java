@@ -18,7 +18,7 @@ public class Building extends WebService {
     public String name;
     public double latitude;
     public double longitude;
-
+    protected final static String DEBUGTAG = "@BuildingModel";
     public static List<Building> lastRequest = null;
 
     public Building(JSONObject jo){
@@ -27,13 +27,15 @@ public class Building extends WebService {
             name  = jo.getString("name");
             latitude = jo.getDouble("latitude");
             longitude = jo.getDouble("longitude");
+
+            Log.i(DEBUGTAG,name);
         }catch (JSONException e){
             Log.e(DEBUGTAG,e.getMessage());
         }
     }
 
     public static void getBuildings(final DataReadyListener dataReadyListener){
-        get("building", new JsonHttpResponseHandler(){
+        get("building", new JsonCustomHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
                 List<Building> thisList = new ArrayList<>();
