@@ -12,6 +12,9 @@ import com.loopj.android.http.ResponseHandlerInterface;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.entity.ByteArrayEntity;
@@ -56,6 +59,16 @@ public class WebService {
     public static void get(String resource, JsonHttpResponseHandler handler){
         Log.i(DEBUGTAG, "GET: "+SERVER+SERVICE+resource);
         client.get(SERVER + SERVICE + resource, handler);
+    }
+
+    public static Date toDate(String dateTime) {
+        SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            return dateParser.parse(dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
