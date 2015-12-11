@@ -15,6 +15,7 @@ import com.example.sergio.webservice.Services.Auth;
 import com.example.sergio.webservice.Services.Building;
 import com.example.sergio.webservice.Services.DataReadyListener;
 import com.example.sergio.webservice.Services.ExamSchedule;
+import com.example.sergio.webservice.Services.Schedule;
 import com.example.sergio.webservice.Services.WebService;
 
 import java.util.List;
@@ -94,6 +95,18 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case R.id.btnBorrarRegistro:
+                        Schedule.getSchedules(new DataReadyListener() {
+                            @Override
+                            public void onSuccess(List objects) {
+                                Toast.makeText(MainActivity.this, "Datos obtenidos de Horario de Horarios de clases", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+
+                            }
+                        });
                         break;
                 }
             }

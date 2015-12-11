@@ -15,41 +15,42 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by sergio on 12/7/15.
  */
-public class ExamSchedule extends WebService {
+public class Schedule extends WebService {
 
     public int id;
+    public String weekday;
     public int subjectId;
-    public int userId;
     public String subjectName;
-    public String description;
-    public Date dateTime;
+    public int userId;
+    public String time;
 
-    protected final static String DEBUGTAG = "@ExamSchedule";
-    public static List<ExamSchedule> lastRequest = null;
 
-    public ExamSchedule(JSONObject jo){
+    protected final static String DEBUGTAG = "@Shedule";
+    public static List<Schedule> lastRequest = null;
+
+    public Schedule(JSONObject jo){
         try{
             id = jo.getInt("id");
+            weekday = jo.getString("weekday");
             subjectId  = jo.getInt("subject_id");
             userId  = jo.getInt("user_id");
-            description  = jo.getString("description");
-            dateTime = toDate(jo.getString("date_time"));
             subjectName = jo.getString("subject_name");
+            time = jo.getString("time");
 
-            Log.i(DEBUGTAG,dateTime.toString());
+            Log.i(DEBUGTAG,weekday);
         }catch (JSONException e){
             Log.e(DEBUGTAG,e.getMessage());
         }
     }
 
-    public static void getExamSchedules(final DataReadyListener dataReadyListener){
-        get("exam-schedule", new JsonCustomHandler(){
+    public static void getSchedules(final DataReadyListener dataReadyListener){
+        get("schedule", new JsonCustomHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
-                List<ExamSchedule> thisList = new ArrayList<>();
+                List<Schedule> thisList = new ArrayList<>();
                 try {
                     for (int i = 0; i < response.length(); i++) {
-                        thisList.add(new ExamSchedule(response.getJSONObject(i)));
+                        thisList.add(new Schedule(response.getJSONObject(i)));
                     }
                     lastRequest = thisList;
                     dataReadyListener.onSuccess(thisList);
