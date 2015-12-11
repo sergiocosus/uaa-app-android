@@ -15,23 +15,24 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by sergio on 12/7/15.
  */
-public class AcademicCalendar extends WebService {
+public class Offer extends WebService {
 
     public int id;
-    public Date  beginAt;
-    public Date endAt;
     public String name;
+    public String educativeCenter;
+    public String campus;
+    public String url;
 
+    protected final static String DEBUGTAG = "@Offer";
+    public static List<Offer> lastRequest = null;
 
-    protected final static String DEBUGTAG = "@AcademicCalendar";
-    public static List<AcademicCalendar> lastRequest = null;
-
-    public AcademicCalendar(JSONObject jo){
+    public Offer(JSONObject jo){
         try{
             id = jo.getInt("id");
-            beginAt = toDate(jo.getString("begin_at"));
-            endAt  = toDate(jo.getString("end_at"));
-            name  = jo.getString("name");
+            educativeCenter = jo.getString("educative_center");
+            name = jo.getString("name");
+            campus = jo.getString("campus");
+            url = jo.getString("url");
 
             Log.i(DEBUGTAG,name);
         }catch (JSONException e){
@@ -39,14 +40,14 @@ public class AcademicCalendar extends WebService {
         }
     }
 
-    public static void getAcademicCalendar(final DataReadyListener dataReadyListener){
-        get("academic-calendar", new JsonCustomHandler(){
+    public static void getOffers(final DataReadyListener dataReadyListener){
+        get("offer", new JsonCustomHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
-                List<AcademicCalendar> thisList = new ArrayList<>();
+                List<Offer> thisList = new ArrayList<>();
                 try {
                     for (int i = 0; i < response.length(); i++) {
-                        thisList.add(new AcademicCalendar(response.getJSONObject(i)));
+                        thisList.add(new Offer(response.getJSONObject(i)));
                     }
                     lastRequest = thisList;
                     dataReadyListener.onSuccess(thisList);

@@ -16,6 +16,7 @@ import com.example.sergio.webservice.Services.Auth;
 import com.example.sergio.webservice.Services.Building;
 import com.example.sergio.webservice.Services.DataReadyListener;
 import com.example.sergio.webservice.Services.ExamSchedule;
+import com.example.sergio.webservice.Services.Offer;
 import com.example.sergio.webservice.Services.Schedule;
 import com.example.sergio.webservice.Services.WebService;
 
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case R.id.btnBorrarRegistro:
-                        AcademicCalendar.getAcademicCalendar(new DataReadyListener() {
+                        Offer.getOffers(new DataReadyListener() {
                             @Override
                             public void onSuccess(List objects) {
                                 Toast.makeText(MainActivity.this, "Datos obtenidos de Horario de Horarios de clases", Toast.LENGTH_LONG).show();
