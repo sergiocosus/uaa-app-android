@@ -46,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void iniciarListener(){
-/*
-        AcademicCalendarSQLite sqLite = new AcademicCalendarSQLite(this,"app.db",null,1);
+       /* AcademicCalendarSQLite sqLite = new AcademicCalendarSQLite(this,"app.db",null,1);
+
         Log.d("DATABASE", ( sqLite.getAll().get(0)).name);
 */
-
         View.OnClickListener l= new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case R.id.btnBorrarRegistro:
-                        AcademicCalendar.getAcademicCalendar(new DataReadyListener() {
+                        Schedule.getSchedules(new DataReadyListener() {
                             @Override
                             public void onSuccess(List objects) {
                                 Toast.makeText(MainActivity.this, "Datos obtenidos de Horario de Horarios de clases", Toast.LENGTH_LONG).show();

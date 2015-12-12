@@ -1,6 +1,9 @@
 package com.example.sergio.webservice.Services;
 
 import android.util.Log;
+
+import com.example.sergio.webservice.Database.AcademicCalendarSQLite;
+import com.example.sergio.webservice.Database.BuildingSQLite;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +24,13 @@ public class Building extends WebService {
     protected final static String DEBUGTAG = "@BuildingModel";
     public static List<Building> lastRequest = null;
 
+    public Building(int id, String name, double latitude, double longitude) {
+        this.id = id;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public Building(JSONObject jo){
         try{
             id = jo.getInt("id");
@@ -40,9 +50,15 @@ public class Building extends WebService {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
                 List<Building> thisList = new ArrayList<>();
                 try {
+                    BuildingSQLite sql = new BuildingSQLite(context, database,null,1);
+                    sql.deleteAll();
                     for (int i = 0; i < response.length(); i++) {
-                        thisList.add(new Building(response.getJSONObject(i)));
+                        Building building = new Building(response.getJSONObject(i));
+                        thisList.add(building);
+                        sql.insert(building);
                     }
+
+                    Log.d("DATABASE",(sql.getAll().get(0).name));
                     lastRequest = thisList;
                     dataReadyListener.onSuccess(thisList);
                 } catch (JSONException e) {

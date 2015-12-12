@@ -2,6 +2,9 @@ package com.example.sergio.webservice.Services;
 
 import android.util.Log;
 
+import com.example.sergio.webservice.Database.BuildingSQLite;
+import com.example.sergio.webservice.Database.OfferSQLite;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +29,14 @@ public class Offer extends WebService {
     protected final static String DEBUGTAG = "@Offer";
     public static List<Offer> lastRequest = null;
 
+    public Offer(int id, String name, String educativeCenter, String campus, String url) {
+        this.id = id;
+        this.name = name;
+        this.educativeCenter = educativeCenter;
+        this.campus = campus;
+        this.url = url;
+    }
+
     public Offer(JSONObject jo){
         try{
             id = jo.getInt("id");
@@ -46,9 +57,15 @@ public class Offer extends WebService {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
                 List<Offer> thisList = new ArrayList<>();
                 try {
+                    OfferSQLite sql = new OfferSQLite(context, database,null,1);
+                    sql.deleteAll();
                     for (int i = 0; i < response.length(); i++) {
-                        thisList.add(new Offer(response.getJSONObject(i)));
+                        Offer offer = new Offer(response.getJSONObject(i));
+                        thisList.add(offer);
+                        sql.insert(offer);
                     }
+                    Log.d("DATABASE",(sql.getAll().get(0).name));
+
                     lastRequest = thisList;
                     dataReadyListener.onSuccess(thisList);
                 } catch (JSONException e) {

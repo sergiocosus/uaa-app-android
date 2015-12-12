@@ -2,6 +2,9 @@ package com.example.sergio.webservice.Services;
 
 import android.util.Log;
 
+import com.example.sergio.webservice.Database.BuildingSQLite;
+import com.example.sergio.webservice.Database.ExamScheduleSQLite;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,9 +26,23 @@ public class ExamSchedule extends WebService {
     public String subjectName;
     public String description;
     public Date dateTime;
+    public String dateTimeStr;
+
+    public float duration;
 
     protected final static String DEBUGTAG = "@ExamSchedule";
     public static List<ExamSchedule> lastRequest = null;
+
+    public ExamSchedule(int id, int subjectId, int userId, String subjectName, String description, String dateTimeStr) {
+        this.id = id;
+        this.subjectId = subjectId;
+        this.userId = userId;
+        this.subjectName = subjectName;
+        this.description = description;
+        this.dateTimeStr = dateTimeStr;
+
+        this.dateTime = toDate(this.dateTimeStr);
+    }
 
     public ExamSchedule(JSONObject jo){
         try{
@@ -33,7 +50,9 @@ public class ExamSchedule extends WebService {
             subjectId  = jo.getInt("subject_id");
             userId  = jo.getInt("user_id");
             description  = jo.getString("description");
-            dateTime = toDate(jo.getString("date_time"));
+
+            dateTimeStr = jo.getString("date_time");
+            dateTime = toDate(dateTimeStr);
             subjectName = jo.getString("subject_name");
 
             Log.i(DEBUGTAG,dateTime.toString());
@@ -48,9 +67,15 @@ public class ExamSchedule extends WebService {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
                 List<ExamSchedule> thisList = new ArrayList<>();
                 try {
+                    ExamScheduleSQLite sql = new ExamScheduleSQLite(context, database,null,1);
+                    sql.deleteAll();
                     for (int i = 0; i < response.length(); i++) {
-                        thisList.add(new ExamSchedule(response.getJSONObject(i)));
+                        ExamSchedule examSchedule = new ExamSchedule(response.getJSONObject(i));
+                        thisList.add(examSchedule);
+                        sql.insert(examSchedule);
                     }
+                    Log.d("DATABASE",(sql.getAll().get(0).subjectName));
+
                     lastRequest = thisList;
                     dataReadyListener.onSuccess(thisList);
                 } catch (JSONException e) {

@@ -2,6 +2,9 @@ package com.example.sergio.webservice.Services;
 
 import android.util.Log;
 
+import com.example.sergio.webservice.Database.BuildingSQLite;
+import com.example.sergio.webservice.Database.ScheduleSQLite;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +31,15 @@ public class Schedule extends WebService {
     protected final static String DEBUGTAG = "@Shedule";
     public static List<Schedule> lastRequest = null;
 
+    public Schedule(int id, String weekday, int subjectId, String subjectName, int userId, String time) {
+        this.id = id;
+        this.weekday = weekday;
+        this.subjectId = subjectId;
+        this.subjectName = subjectName;
+        this.userId = userId;
+        this.time = time;
+    }
+
     public Schedule(JSONObject jo){
         try{
             id = jo.getInt("id");
@@ -49,9 +61,15 @@ public class Schedule extends WebService {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
                 List<Schedule> thisList = new ArrayList<>();
                 try {
+                    ScheduleSQLite sql = new ScheduleSQLite(context, database,null,1);
+                    sql.deleteAll();
                     for (int i = 0; i < response.length(); i++) {
-                        thisList.add(new Schedule(response.getJSONObject(i)));
+                        Schedule schedule = new Schedule(response.getJSONObject(i));
+                        thisList.add(schedule);
+                        sql.insert(schedule);
                     }
+                    Log.d("DATABASE",(sql.getAll().get(0).subjectName));
+
                     lastRequest = thisList;
                     dataReadyListener.onSuccess(thisList);
                 } catch (JSONException e) {
