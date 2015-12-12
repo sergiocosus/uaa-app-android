@@ -3,4 +3,37 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_calendario_publico_ee">CalendarioPublicoEE</string>
+    <string name="title_activity_galeria_imag_e">GaleriaImagE</string>
+    <string name="title_activity_historia_e">HistoriaE</string>
+    <string name="TextoHistoria">Los antecedentes de nuestra institución se remontan al 15 de enero
+        de 1867 cuando el gobernador del Estado, coronel J. Jesús Gómez Portugal, inaugura la Escuela de Agricultura,
+        misma que al pasar el tiempo quedaría, en su última etapa, como Instituto Autónomo de Ciencias y Tecnología (IACT).
+
+Tuvieron que pasar 106 años para que el Instituto de Ciencias, partiendo de su autonomía,
+        promoviera su propia transformación en lo que es hoy la Universidad Autónoma de
+        Aguascalientes. El 19 de junio de 1973, en una reunión histórica del Consejo Directivo del IACT,
+        se aprobó por unanimidad el nacimiento de la primera universidad pública en el Estado.</string>
+    <string name="title_activity_planes_estudio_e">PlanesEstudioE</string>
+
+
+    <string-array name="lista_norte">
+        <item>Plan1</item>
+        <item>Plan2</item>
+        <item>Plan3</item>
+
+    </string-array>
+
+    <string-array name="lista_sur">
+        <item>Plan1</item>
+        <item>Plan2</item>
+        <item>Plan3</item>
+
+    </string-array>
+
+
+
+
+
+
 </resources>
