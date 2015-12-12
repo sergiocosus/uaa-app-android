@@ -15,7 +15,6 @@ import cz.msebera.android.httpclient.Header;
 public abstract class JsonCustomHandler extends JsonHttpResponseHandler {
     @Override
     public void onSuccess(int statusCode, Header[] headers, String responseString) {
-        Log.i("Response",responseString);
         globalSuccess(statusCode, headers, null, null,responseString);
     }
 
@@ -33,14 +32,12 @@ public abstract class JsonCustomHandler extends JsonHttpResponseHandler {
 
     @Override
     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-        Log.e("RequestError", responseString);
         globalError(statusCode, headers, null, null, responseString);
     }
 
 
     @Override
     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-        Log.e("Request:", errorResponse.toString());
         globalError(statusCode, headers, null, errorResponse, null);
     }
 

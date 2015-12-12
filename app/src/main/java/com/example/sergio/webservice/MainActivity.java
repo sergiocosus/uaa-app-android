@@ -11,6 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sergio.webservice.Database.AcademicCalendarSQLite;
+import com.example.sergio.webservice.Database.BuildingSQLite;
+import com.example.sergio.webservice.Database.ExamScheduleSQLite;
+import com.example.sergio.webservice.Database.OfferSQLite;
+import com.example.sergio.webservice.Database.ScheduleSQLite;
 import com.example.sergio.webservice.Services.AcademicCalendar;
 import com.example.sergio.webservice.Services.Auth;
 import com.example.sergio.webservice.Services.Building;
@@ -91,6 +96,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+                                AcademicCalendarSQLite academicCalendar = new AcademicCalendarSQLite(MainActivity.this,WebService.database,null,1);
+                                List academics = academicCalendar.getAll();
+                                for(int i =0; i<academics.size(); i++){
+                                    ((AcademicCalendar)academics.get(i)).log();
+                                }
 
                             }
                         });
@@ -106,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+                                BuildingSQLite buildingSQLite = new BuildingSQLite(MainActivity.this,WebService.database,null,1);
+                                List builings = buildingSQLite.getAll();
+                                for(int i =0; i<builings.size(); i++){
+                                    ((Building)builings.get(i)).log();
+                                }
                             }
                         });
                         break;
@@ -119,6 +134,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+                                ExamScheduleSQLite examScheduleSQLite = new ExamScheduleSQLite(MainActivity.this,WebService.database,null,1);
+                                List builings = examScheduleSQLite.getAll();
+                                for(int i =0; i<builings.size(); i++){
+                                    ((ExamSchedule)builings.get(i)).log();
+                                }
                             }
                         });
                         break;
@@ -132,6 +152,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+                                OfferSQLite offerSQLite = new OfferSQLite(MainActivity.this,WebService.database,null,1);
+                                List builings = offerSQLite.getAll();
+                                for(int i =0; i<builings.size(); i++){
+                                    ((Offer)builings.get(i)).log();
+                                }
                             }
                         });
                         break;
@@ -145,6 +170,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+                                ScheduleSQLite scheduleSQLite = new ScheduleSQLite(MainActivity.this,WebService.database,null,1);
+                                List builings = scheduleSQLite.getAll();
+                                for(int i =0; i<builings.size(); i++){
+                                    ((Schedule)builings.get(i)).log();
+                                }
                             }
                         });
                 }
