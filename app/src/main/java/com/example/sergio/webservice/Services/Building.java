@@ -58,7 +58,6 @@ public class Building extends WebService {
                         sql.insert(building);
                     }
 
-                    Log.d("DATABASE",(sql.getAll().get(0).name));
                     lastRequest = thisList;
                     dataReadyListener.onSuccess(thisList);
                 } catch (JSONException e) {

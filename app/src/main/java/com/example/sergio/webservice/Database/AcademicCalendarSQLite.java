@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.sergio.webservice.Services.AcademicCalendar;
 
@@ -44,6 +45,7 @@ public class AcademicCalendarSQLite extends BaseDatabase {
     }
 
     public List<AcademicCalendar> getAll(){
+        Toast.makeText(context,"Loading from cache",Toast.LENGTH_LONG).show();
         Cursor c = getWritableDatabase().rawQuery("SELECT *  FROM "+ tableName(), null);
         List<AcademicCalendar> thisList = new ArrayList<>();
 

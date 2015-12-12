@@ -12,8 +12,10 @@ import com.example.sergio.webservice.Services.ExamSchedule;
 public  abstract class BaseDatabase extends SQLiteOpenHelper {
     protected abstract String tableName ();
 
+    protected  Context context;
     public BaseDatabase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+        this.context = context;
     }
 
     @Override
