@@ -2,6 +2,7 @@ package com.example.sergio.webservice.Services;
 
 import android.util.Log;
 
+import com.example.sergio.webservice.Database.AcademicCalendarSQLite;
 import com.example.sergio.webservice.Database.BuildingSQLite;
 import com.example.sergio.webservice.Database.ScheduleSQLite;
 
@@ -59,31 +60,37 @@ public class Schedule extends WebService {
     }
 
     public static void getSchedules(final DataReadyListener dataReadyListener){
-        get("schedule", new JsonCustomHandler(){
-            @Override
-            public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
-                List<Schedule> thisList = new ArrayList<>();
-                try {
-                    ScheduleSQLite sql = new ScheduleSQLite(context, database,null,1);
-                    sql.deleteAll();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        Schedule schedule = new Schedule(jsonArray.getJSONObject(i));
-                        thisList.add(schedule);
-                        sql.insert(schedule);
+        if(isConnected()){
+            get("schedule", new JsonCustomHandler(){
+                @Override
+                public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                    List<Schedule> thisList = new ArrayList<>();
+                    try {
+                        ScheduleSQLite sql = new ScheduleSQLite(context);
+                        sql.deleteAll();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            Schedule schedule = new Schedule(jsonArray.getJSONObject(i));
+                            thisList.add(schedule);
+                            sql.insert(schedule);
+                        }
+
+                        lastRequest = thisList;
+                        dataReadyListener.onSuccess(thisList);
+                    } catch (JSONException e) {
+                        Log.e(DEBUGTAG, e.getMessage());
+                        dataReadyListener.onSuccess(null);
                     }
-
-                    lastRequest = thisList;
-                    dataReadyListener.onSuccess(thisList);
-                } catch (JSONException e) {
-                    Log.e(DEBUGTAG, e.getMessage());
-                    dataReadyListener.onSuccess(null);
                 }
-            }
 
-            @Override
-            public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
-                dataReadyListener.onError(statusCode, headers, responseString,null);
-            }
-        });
+                @Override
+                public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                    dataReadyListener.onError(statusCode, headers, responseString,null);
+                }
+            });
+        }else{
+            ScheduleSQLite scheduleSQLite = new ScheduleSQLite(context);
+            List <Schedule> schedules = scheduleSQLite.getAll();
+            dataReadyListener.onNoNetwork(schedules);
+        }
     }
 }

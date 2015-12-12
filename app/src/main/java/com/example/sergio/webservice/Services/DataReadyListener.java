@@ -12,5 +12,6 @@ import cz.msebera.android.httpclient.Header;
  */
 public interface DataReadyListener {
     public abstract void onSuccess(List objects);
+    public abstract void onNoNetwork (List objects);
     public abstract void onError(int statusCode, Header[] headers, String responseString, Throwable throwable);
 }

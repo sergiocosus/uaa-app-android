@@ -30,8 +30,8 @@ public class BuildingSQLite extends BaseDatabase {
                 "    PRIMARY KEY (id))";
     }
 
-    public BuildingSQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public BuildingSQLite(Context context) {
+        super(context);
     }
 
 

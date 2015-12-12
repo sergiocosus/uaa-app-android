@@ -2,6 +2,7 @@ package com.example.sergio.webservice.Services;
 
 import android.util.Log;
 
+import com.example.sergio.webservice.Database.AcademicCalendarSQLite;
 import com.example.sergio.webservice.Database.BuildingSQLite;
 import com.example.sergio.webservice.Database.OfferSQLite;
 
@@ -56,33 +57,37 @@ public class Offer extends WebService {
     }
 
     public static void getOffers(final DataReadyListener dataReadyListener){
-        get("offer", new JsonCustomHandler(){
-            @Override
-            public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
-                List<Offer> thisList = new ArrayList<>();
-                try {
-                    OfferSQLite sql = new OfferSQLite(context, database,null,1);
-                    sql.deleteAll();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        Offer offer = new Offer(jsonArray.getJSONObject(i));
-                        thisList.add(offer);
-                        sql.insert(offer);
+        if(isConnected()){
+            get("offer", new JsonCustomHandler(){
+                @Override
+                public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                    List<Offer> thisList = new ArrayList<>();
+                    try {
+                        OfferSQLite sql = new OfferSQLite(context);
+                        sql.deleteAll();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            Offer offer = new Offer(jsonArray.getJSONObject(i));
+                            thisList.add(offer);
+                            sql.insert(offer);
+                        }
+
+                        lastRequest = thisList;
+                        dataReadyListener.onSuccess(thisList);
+                    } catch (JSONException e) {
+                        Log.e(DEBUGTAG, e.getMessage());
+                        dataReadyListener.onSuccess(null);
                     }
-
-                    lastRequest = thisList;
-                    dataReadyListener.onSuccess(thisList);
-                } catch (JSONException e) {
-                    Log.e(DEBUGTAG, e.getMessage());
-                    dataReadyListener.onSuccess(null);
                 }
-            }
 
-            @Override
-            public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
-                dataReadyListener.onError(statusCode, headers, responseString,null);
-            }
-
-
-        });
+                @Override
+                public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                    dataReadyListener.onError(statusCode, headers, responseString,null);
+                }
+            });
+        }else{
+            OfferSQLite offerSQLite = new OfferSQLite(context);
+            List <Offer> offers = offerSQLite.getAll();
+            dataReadyListener.onNoNetwork(offers);
+        }
     }
 }

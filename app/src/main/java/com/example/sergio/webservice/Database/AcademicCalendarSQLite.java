@@ -30,8 +30,8 @@ public class AcademicCalendarSQLite extends BaseDatabase {
                 "PRIMARY KEY (id))";
     }
 
-    public AcademicCalendarSQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public AcademicCalendarSQLite(Context context) {
+        super(context);
     }
 
 

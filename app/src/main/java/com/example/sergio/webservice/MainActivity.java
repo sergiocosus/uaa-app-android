@@ -1,5 +1,8 @@
 package com.example.sergio.webservice;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,10 +55,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void iniciarListener(){
+
+        ConnectivityManager conMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+
+
+
+
         View.OnClickListener l= new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
+
                     case R.id.btnCrearRegistro:
                         Auth.login(id.getText().toString(), password.getText().toString(), new DataReadyListener() {
                             @Override
@@ -67,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onNoNetwork(List objects) {
+
                             }
                         });
                         break;
@@ -82,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
                             }
+                            @Override
+                            public void onNoNetwork(List objects) {
+
+                            }
                         });
                         break;
 
@@ -96,14 +115,20 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
-                                AcademicCalendarSQLite academicCalendar = new AcademicCalendarSQLite(MainActivity.this,WebService.database,null,1);
-                                List academics = academicCalendar.getAll();
-                                for(int i =0; i<academics.size(); i++){
-                                    ((AcademicCalendar)academics.get(i)).log();
-                                }
+
 
                             }
+
+                            @Override
+                            public void onNoNetwork(List objects) {
+                                List<AcademicCalendar> academics = objects;
+                                for(int i =0; i<academics.size(); i++){
+                                    (academics.get(i)).log();
+                                }
+                            }
                         });
+
+
 
                         break;
                     case R.id.btnBuildings:
@@ -116,13 +141,22 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
-                                BuildingSQLite buildingSQLite = new BuildingSQLite(MainActivity.this,WebService.database,null,1);
-                                List builings = buildingSQLite.getAll();
-                                for(int i =0; i<builings.size(); i++){
-                                    ((Building)builings.get(i)).log();
+                                BuildingSQLite buildingSQLite = new BuildingSQLite(MainActivity.this);
+                                List<Building> builings = buildingSQLite.getAll();
+                                for (int i = 0; i < builings.size(); i++) {
+                                    (builings.get(i)).log();
+                                }
+                            }
+
+                            @Override
+                            public void onNoNetwork(List objects) {
+                                List<Building> academics = objects;
+                                for(int i =0; i<academics.size(); i++){
+                                    (academics.get(i)).log();
                                 }
                             }
                         });
+
                         break;
                     case R.id.btnExamSchedule:
                         ExamSchedule.getExamSchedules(new DataReadyListener() {
@@ -134,13 +168,22 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
-                                ExamScheduleSQLite examScheduleSQLite = new ExamScheduleSQLite(MainActivity.this,WebService.database,null,1);
-                                List builings = examScheduleSQLite.getAll();
-                                for(int i =0; i<builings.size(); i++){
-                                    ((ExamSchedule)builings.get(i)).log();
+                                ExamScheduleSQLite examScheduleSQLite = new ExamScheduleSQLite(MainActivity.this);
+                                List<ExamSchedule> builings = examScheduleSQLite.getAll();
+                                for (int i = 0; i < builings.size(); i++) {
+                                    (builings.get(i)).log();
+                                }
+                            }
+
+                            @Override
+                            public void onNoNetwork(List objects) {
+                                List<ExamSchedule> academics = objects;
+                                for(int i =0; i<academics.size(); i++){
+                                    (academics.get(i)).log();
                                 }
                             }
                         });
+
                         break;
                     case R.id.btnOffer:
                         Offer.getOffers(new DataReadyListener() {
@@ -152,13 +195,22 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
-                                OfferSQLite offerSQLite = new OfferSQLite(MainActivity.this,WebService.database,null,1);
-                                List builings = offerSQLite.getAll();
-                                for(int i =0; i<builings.size(); i++){
-                                    ((Offer)builings.get(i)).log();
+                                OfferSQLite offerSQLite = new OfferSQLite(MainActivity.this);
+                                List<Offer> builings = offerSQLite.getAll();
+                                for (int i = 0; i < builings.size(); i++) {
+                                    (builings.get(i)).log();
+                                }
+                            }
+
+                            @Override
+                            public void onNoNetwork(List objects) {
+                                List<Offer> academics = objects;
+                                for(int i =0; i<academics.size(); i++){
+                                    (academics.get(i)).log();
                                 }
                             }
                         });
+
                         break;
                     case R.id.btnSchedule:
                         Schedule.getSchedules(new DataReadyListener() {
@@ -170,13 +222,22 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
-                                ScheduleSQLite scheduleSQLite = new ScheduleSQLite(MainActivity.this,WebService.database,null,1);
-                                List builings = scheduleSQLite.getAll();
-                                for(int i =0; i<builings.size(); i++){
-                                    ((Schedule)builings.get(i)).log();
+                                ScheduleSQLite scheduleSQLite = new ScheduleSQLite(MainActivity.this);
+                                List<Schedule> builings = scheduleSQLite.getAll();
+                                for (int i = 0; i < builings.size(); i++) {
+                                    (builings.get(i)).log();
+                                }
+                            }
+
+                            @Override
+                            public void onNoNetwork(List objects) {
+                                List<Schedule> academics = objects;
+                                for(int i =0; i<academics.size(); i++){
+                                    (academics.get(i)).log();
                                 }
                             }
                         });
+
                 }
             }
         };
