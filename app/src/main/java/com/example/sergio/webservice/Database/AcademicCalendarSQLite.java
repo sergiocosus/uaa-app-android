@@ -35,7 +35,6 @@ public class AcademicCalendarSQLite extends BaseDatabase {
 
 
     public void insert(AcademicCalendar calendar){
-        Log.i("DATABASE","insert  In database");
         ContentValues container = new ContentValues();
         container.put("id",calendar.id);
         container.put("name",calendar.name);

@@ -35,7 +35,6 @@ public class BuildingSQLite extends BaseDatabase {
 
 
     public void insert(Building calendar){
-        Log.i("DATABASE","insert  In database");
         ContentValues container = new ContentValues();
         container.put("id",calendar.id);
         container.put("name",calendar.name);

@@ -38,7 +38,6 @@ public class ScheduleSQLite extends BaseDatabase {
 
 
     public void insert(Schedule exs){
-        Log.i("DATABASE", "insert  In database");
         ContentValues container = new ContentValues();
         container.put("id",exs.id);
         container.put("weekday",exs.weekday);
