@@ -56,10 +56,13 @@ public class ExamSchedule extends WebService {
             dateTime = toDate(dateTimeStr);
             subjectName = jo.getString("subject_name");
 
-            Log.i(DEBUGTAG, id+":"+subjectId+":"+subjectName+":"+description+":"+dateTimeStr);
         }catch (JSONException e){
             Log.e(DEBUGTAG,e.getMessage());
         }
+    }
+
+    public void log(){
+        Log.i(DEBUGTAG, id+":"+subjectId+":"+subjectName+":"+description+":"+dateTimeStr);
     }
 
     public static void getExamSchedules(final DataReadyListener dataReadyListener){

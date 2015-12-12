@@ -44,11 +44,15 @@ public class Offer extends WebService {
             name = jo.getString("name");
             campus = jo.getString("campus");
             url = jo.getString("url");
-
-            Log.i(DEBUGTAG, id+":"+name+":"+educativeCenter+":"+campus+":"+url);
+            log();
         }catch (JSONException e){
             Log.e(DEBUGTAG,e.getMessage());
         }
+    }
+
+    public void log(){
+        Log.i(DEBUGTAG, id+":"+name+":"+educativeCenter+":"+campus+":"+url);
+
     }
 
     public static void getOffers(final DataReadyListener dataReadyListener){

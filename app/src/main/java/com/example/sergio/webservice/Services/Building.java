@@ -31,16 +31,23 @@ public class Building extends WebService {
         this.longitude = longitude;
     }
 
+
+
     public Building(JSONObject jo){
         try{
             id = jo.getInt("id");
             name  = jo.getString("name");
             latitude = jo.getDouble("latitude");
             longitude = jo.getDouble("longitude");
-            Log.i(DEBUGTAG, id+":"+name+":"+latitude+":"+longitude);
+            log();
         }catch (JSONException e){
             Log.e(DEBUGTAG,e.getMessage());
         }
+    }
+
+    public void log(){
+        Log.i(DEBUGTAG, id+":"+name+":"+latitude+":"+longitude);
+
     }
 
     public static void getBuildings(final DataReadyListener dataReadyListener){

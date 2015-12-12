@@ -48,10 +48,14 @@ public class Schedule extends WebService {
             userId  = jo.getInt("user_id");
             subjectName = jo.getString("subject_name");
             time = jo.getString("time");
-            Log.i(DEBUGTAG, id+":"+weekday+":"+subjectId+":"+userId+":"+subjectName+":"+time);
+            log();
         }catch (JSONException e){
             Log.e(DEBUGTAG,e.getMessage());
         }
+    }
+
+    public void log(){
+        Log.i(DEBUGTAG, id+":"+weekday+":"+subjectId+":"+userId+":"+subjectName+":"+time);
     }
 
     public static void getSchedules(final DataReadyListener dataReadyListener){

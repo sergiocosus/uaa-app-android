@@ -37,6 +37,10 @@ public class AcademicCalendar extends WebService {
         this.endAtStr = endAtStr;
         this.beginAt = toDate(beginAtStr);
         this.endAt  = toDate(endAtStr);
+        log();
+    }
+
+    public void log(){
         Log.i(DEBUGTAG, id+":"+name+":"+beginAtStr+":"+endAtStr);
     }
 
