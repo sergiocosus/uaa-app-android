@@ -59,7 +59,6 @@ public class AcademicCalendar extends WebService {
                     }
                     lastRequest = thisList;
 
-                    //Log.d("DATABASE",(sql.getAll().get(0).name));
                     dataReadyListener.onSuccess(thisList);
                 } catch (JSONException e) {
                     Log.e(DEBUGTAG, e.getMessage());

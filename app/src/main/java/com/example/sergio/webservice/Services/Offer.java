@@ -64,7 +64,6 @@ public class Offer extends WebService {
                         thisList.add(offer);
                         sql.insert(offer);
                     }
-                    Log.d("DATABASE",(sql.getAll().get(0).name));
 
                     lastRequest = thisList;
                     dataReadyListener.onSuccess(thisList);

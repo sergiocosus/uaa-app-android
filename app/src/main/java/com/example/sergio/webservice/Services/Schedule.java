@@ -68,7 +68,6 @@ public class Schedule extends WebService {
                         thisList.add(schedule);
                         sql.insert(schedule);
                     }
-                    Log.d("DATABASE",(sql.getAll().get(0).subjectName));
 
                     lastRequest = thisList;
                     dataReadyListener.onSuccess(thisList);

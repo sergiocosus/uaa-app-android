@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
                         ExamSchedule.getExamSchedules(new DataReadyListener() {
                             @Override
                             public void onSuccess(List objects) {
-
-                                Toast.makeText(MainActivity.this, "Datos obtenidos de Horario de Examnes", Toast.LENGTH_LONG).show();
+                                ExamSchedule examSchedule = (ExamSchedule)objects.get(0);
+                                Toast.makeText(MainActivity.this,examSchedule.subjectName, Toast.LENGTH_LONG).show();
                             }
 
                             @Override

@@ -26,6 +26,7 @@ public class ExamSchedule extends WebService {
     public String subjectName;
     public String description;
     public Date dateTime;
+
     public String dateTimeStr;
 
     public float duration;
@@ -74,7 +75,6 @@ public class ExamSchedule extends WebService {
                         thisList.add(examSchedule);
                         sql.insert(examSchedule);
                     }
-                    Log.d("DATABASE",(sql.getAll().get(0).subjectName));
 
                     lastRequest = thisList;
                     dataReadyListener.onSuccess(thisList);
