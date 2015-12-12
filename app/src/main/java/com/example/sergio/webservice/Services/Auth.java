@@ -34,18 +34,16 @@ public class Auth extends WebService {
 
         post("auth/login", jsonObject, new JsonCustomHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
+            public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
                 dataReadyListener.onSuccess(null);
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String
-                    responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
+            public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
                 Log.i("Code", "" + statusCode);
-                dataReadyListener.onError(statusCode, headers, responseString, throwable);
+                dataReadyListener.onError(statusCode, headers, responseString, null);
             }
+
         });
 
     }
@@ -53,17 +51,14 @@ public class Auth extends WebService {
     public static void logout(final DataReadyListener dataReadyListener){
         get("auth/logout", new JsonCustomHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
+            public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
                 dataReadyListener.onSuccess(null);
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String
-                    responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
+            public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
                 Log.i("Code", "" + statusCode);
-                dataReadyListener.onError(statusCode, headers, responseString, throwable);
+                dataReadyListener.onError(statusCode, headers, responseString, null);
             }
         });
     }

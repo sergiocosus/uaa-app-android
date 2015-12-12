@@ -37,8 +37,7 @@ public class Building extends WebService {
             name  = jo.getString("name");
             latitude = jo.getDouble("latitude");
             longitude = jo.getDouble("longitude");
-
-            Log.i(DEBUGTAG,name);
+            //Log.i(DEBUGTAG, id+":"+name+":"+latitude+":"+longitude);
         }catch (JSONException e){
             Log.e(DEBUGTAG,e.getMessage());
         }
@@ -47,13 +46,13 @@ public class Building extends WebService {
     public static void getBuildings(final DataReadyListener dataReadyListener){
         get("building", new JsonCustomHandler(){
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+            public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
                 List<Building> thisList = new ArrayList<>();
                 try {
                     BuildingSQLite sql = new BuildingSQLite(context, database,null,1);
                     sql.deleteAll();
-                    for (int i = 0; i < response.length(); i++) {
-                        Building building = new Building(response.getJSONObject(i));
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        Building building = new Building(jsonArray.getJSONObject(i));
                         thisList.add(building);
                         sql.insert(building);
                     }
@@ -67,9 +66,10 @@ public class Building extends WebService {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                dataReadyListener.onError(statusCode, headers, responseString,throwable);
+            public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                dataReadyListener.onError(statusCode, headers, responseString,null);
             }
+
         });
     }
 }

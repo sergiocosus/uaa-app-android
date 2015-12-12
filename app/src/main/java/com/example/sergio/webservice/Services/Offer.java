@@ -45,7 +45,7 @@ public class Offer extends WebService {
             campus = jo.getString("campus");
             url = jo.getString("url");
 
-            Log.i(DEBUGTAG,name);
+            //Log.i(DEBUGTAG, id+":"+name+":"+educativeCenter+":"+campus+":"+url);
         }catch (JSONException e){
             Log.e(DEBUGTAG,e.getMessage());
         }
@@ -54,13 +54,13 @@ public class Offer extends WebService {
     public static void getOffers(final DataReadyListener dataReadyListener){
         get("offer", new JsonCustomHandler(){
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+            public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
                 List<Offer> thisList = new ArrayList<>();
                 try {
                     OfferSQLite sql = new OfferSQLite(context, database,null,1);
                     sql.deleteAll();
-                    for (int i = 0; i < response.length(); i++) {
-                        Offer offer = new Offer(response.getJSONObject(i));
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        Offer offer = new Offer(jsonArray.getJSONObject(i));
                         thisList.add(offer);
                         sql.insert(offer);
                     }
@@ -74,9 +74,11 @@ public class Offer extends WebService {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                dataReadyListener.onError(statusCode, headers, responseString,throwable);
+            public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                dataReadyListener.onError(statusCode, headers, responseString,null);
             }
+
+
         });
     }
 }

@@ -48,8 +48,7 @@ public class Schedule extends WebService {
             userId  = jo.getInt("user_id");
             subjectName = jo.getString("subject_name");
             time = jo.getString("time");
-
-            Log.i(DEBUGTAG,weekday);
+            //Log.i(DEBUGTAG, id+":"+weekday+":"+subjectId+":"+userId+":"+subjectName+":"+time);
         }catch (JSONException e){
             Log.e(DEBUGTAG,e.getMessage());
         }
@@ -58,13 +57,13 @@ public class Schedule extends WebService {
     public static void getSchedules(final DataReadyListener dataReadyListener){
         get("schedule", new JsonCustomHandler(){
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+            public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
                 List<Schedule> thisList = new ArrayList<>();
                 try {
                     ScheduleSQLite sql = new ScheduleSQLite(context, database,null,1);
                     sql.deleteAll();
-                    for (int i = 0; i < response.length(); i++) {
-                        Schedule schedule = new Schedule(response.getJSONObject(i));
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        Schedule schedule = new Schedule(jsonArray.getJSONObject(i));
                         thisList.add(schedule);
                         sql.insert(schedule);
                     }
@@ -78,8 +77,8 @@ public class Schedule extends WebService {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                dataReadyListener.onError(statusCode, headers, responseString,throwable);
+            public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                dataReadyListener.onError(statusCode, headers, responseString,null);
             }
         });
     }

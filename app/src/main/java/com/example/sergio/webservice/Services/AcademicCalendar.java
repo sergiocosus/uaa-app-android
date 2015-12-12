@@ -37,7 +37,7 @@ public class AcademicCalendar extends WebService {
         this.endAtStr = endAtStr;
         this.beginAt = toDate(beginAtStr);
         this.endAt  = toDate(endAtStr);
-        Log.i(DEBUGTAG,name);
+        //Log.i(DEBUGTAG, id+":"+name+":"+beginAtStr+":"+endAtStr);
     }
 
     public AcademicCalendar(JSONObject jo) throws JSONException {
@@ -47,13 +47,13 @@ public class AcademicCalendar extends WebService {
     public static void getAcademicCalendar(final DataReadyListener dataReadyListener){
         get("academic-calendar", new JsonCustomHandler(){
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+            public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
                 List<AcademicCalendar> thisList = new ArrayList<>();
                 try {
                     AcademicCalendarSQLite sql = new AcademicCalendarSQLite(context, database,null,1);
                     sql.deleteAll();
-                    for (int i = 0; i < response.length(); i++) {
-                        AcademicCalendar academicCalendar = new AcademicCalendar(response.getJSONObject(i));
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        AcademicCalendar academicCalendar = new AcademicCalendar(jsonArray.getJSONObject(i));
                         thisList.add(academicCalendar);
                         sql.insert(academicCalendar);
                     }
@@ -67,8 +67,8 @@ public class AcademicCalendar extends WebService {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                dataReadyListener.onError(statusCode, headers, responseString,throwable);
+            public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                dataReadyListener.onError(statusCode, headers, responseString,null);
             }
         });
     }

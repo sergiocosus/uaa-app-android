@@ -65,13 +65,13 @@ public class ExamSchedule extends WebService {
     public static void getExamSchedules(final DataReadyListener dataReadyListener){
         get("exam-schedule", new JsonCustomHandler(){
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response){
+            public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
                 List<ExamSchedule> thisList = new ArrayList<>();
                 try {
                     ExamScheduleSQLite sql = new ExamScheduleSQLite(context, database,null,1);
                     sql.deleteAll();
-                    for (int i = 0; i < response.length(); i++) {
-                        ExamSchedule examSchedule = new ExamSchedule(response.getJSONObject(i));
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        ExamSchedule examSchedule = new ExamSchedule(jsonArray.getJSONObject(i));
                         thisList.add(examSchedule);
                         sql.insert(examSchedule);
                     }
@@ -85,9 +85,10 @@ public class ExamSchedule extends WebService {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                dataReadyListener.onError(statusCode, headers, responseString,throwable);
+            public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                dataReadyListener.onError(statusCode, headers, responseString,null);
             }
+
         });
     }
 }
