@@ -2,6 +2,7 @@ package com.example.sergio.webservice;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,8 +11,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sergio.webservice.Database.AcademicCalendarSQLite;
+import com.example.sergio.webservice.Services.AcademicCalendar;
+import com.example.sergio.webservice.Services.Auth;
 import com.example.sergio.webservice.Services.Building;
 import com.example.sergio.webservice.Services.DataReadyListener;
+import com.example.sergio.webservice.Services.ExamSchedule;
+import com.example.sergio.webservice.Services.Offer;
+import com.example.sergio.webservice.Services.Schedule;
+import com.example.sergio.webservice.Services.WebService;
 
 import java.util.List;
 
@@ -31,23 +39,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        WebService.setContext(this);
+
         this.iniciarElementos();
         this.iniciarListener();
     }
 
     private void iniciarListener(){
+       /* AcademicCalendarSQLite sqLite = new AcademicCalendarSQLite(this,"app.db",null,1);
+
+        Log.d("DATABASE", ( sqLite.getAll().get(0)).name);
+*/
         View.OnClickListener l= new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.btnCrearRegistro:
-                        Building.getBuildings(new DataReadyListener() {
+                        Auth.logout(new DataReadyListener() {
                             @Override
                             public void onSuccess(List objects) {
-                                if (objects != null) {
-                                    Building building = (Building) objects.get(0);
-                                    Toast.makeText(MainActivity.this, building.name, Toast.LENGTH_SHORT).show();
-                                }
+                                Log.i(DEBUGTAG,"Deslogueado!");
                             }
 
                             @Override
@@ -55,16 +66,52 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
                             }
                         });
-//                        rearRegistro();
+//
                         break;
                     case R.id.btnLeerRegistro:
-//                        leerRegistros();
+                        Auth.login("150795", "070993", new DataReadyListener() {
+                            @Override
+                            public void onSuccess(List objects) {
+                                Toast.makeText(MainActivity.this, "Logeadoooo", Toast.LENGTH_LONG).show();
+                                Log.i("Log?", "logeado!!!!!!");
+                            }
+
+                            @Override
+                            public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+                            }
+                        });
                         break;
                     case R.id.btnActualizarRegistro:
-//                        actualizarRegistro();
+                        ExamSchedule.getExamSchedules(new DataReadyListener() {
+                            @Override
+                            public void onSuccess(List objects) {
+
+                                Toast.makeText(MainActivity.this, "Datos obtenidos de Horario de Examnes", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+
                         break;
                     case R.id.btnBorrarRegistro:
-//                        borrarRegistro();
+                        Schedule.getSchedules(new DataReadyListener() {
+                            @Override
+                            public void onSuccess(List objects) {
+                                Toast.makeText(MainActivity.this, "Datos obtenidos de Horario de Horarios de clases", Toast.LENGTH_LONG).show();
+
+                            }
+
+                            @Override
+                            public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+
+                            }
+                        });
                         break;
                 }
             }

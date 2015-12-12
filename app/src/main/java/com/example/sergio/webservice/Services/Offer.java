@@ -2,41 +2,48 @@ package com.example.sergio.webservice.Services;
 
 import android.util.Log;
 
-import com.example.sergio.webservice.Database.AcademicCalendarSQLite;
 import com.example.sergio.webservice.Database.BuildingSQLite;
-import com.loopj.android.http.JsonHttpResponseHandler;
+import com.example.sergio.webservice.Database.OfferSQLite;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by sergio on 12/7/15.
  */
-public class Building extends WebService {
+public class Offer extends WebService {
 
     public int id;
     public String name;
-    public double latitude;
-    public double longitude;
-    protected final static String DEBUGTAG = "@BuildingModel";
-    public static List<Building> lastRequest = null;
+    public String educativeCenter;
+    public String campus;
+    public String url;
 
-    public Building(int id, String name, double latitude, double longitude) {
+    protected final static String DEBUGTAG = "@Offer";
+    public static List<Offer> lastRequest = null;
+
+    public Offer(int id, String name, String educativeCenter, String campus, String url) {
         this.id = id;
         this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.educativeCenter = educativeCenter;
+        this.campus = campus;
+        this.url = url;
     }
 
-    public Building(JSONObject jo){
+    public Offer(JSONObject jo){
         try{
             id = jo.getInt("id");
-            name  = jo.getString("name");
-            latitude = jo.getDouble("latitude");
-            longitude = jo.getDouble("longitude");
+            educativeCenter = jo.getString("educative_center");
+            name = jo.getString("name");
+            campus = jo.getString("campus");
+            url = jo.getString("url");
 
             Log.i(DEBUGTAG,name);
         }catch (JSONException e){
@@ -44,19 +51,20 @@ public class Building extends WebService {
         }
     }
 
-    public static void getBuildings(final DataReadyListener dataReadyListener){
-        get("building", new JsonCustomHandler(){
+    public static void getOffers(final DataReadyListener dataReadyListener){
+        get("offer", new JsonCustomHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response){
-                List<Building> thisList = new ArrayList<>();
+                List<Offer> thisList = new ArrayList<>();
                 try {
-                    BuildingSQLite sql = new BuildingSQLite(context, database,null,1);
+                    OfferSQLite sql = new OfferSQLite(context, database,null,1);
                     sql.deleteAll();
                     for (int i = 0; i < response.length(); i++) {
-                        Building building = new Building(response.getJSONObject(i));
-                        thisList.add(building);
-                        sql.insert(building);
+                        Offer offer = new Offer(response.getJSONObject(i));
+                        thisList.add(offer);
+                        sql.insert(offer);
                     }
+                    Log.d("DATABASE",(sql.getAll().get(0).name));
 
                     lastRequest = thisList;
                     dataReadyListener.onSuccess(thisList);
