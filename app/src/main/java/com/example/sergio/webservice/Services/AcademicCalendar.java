@@ -37,7 +37,7 @@ public class AcademicCalendar extends WebService {
         this.endAtStr = endAtStr;
         this.beginAt = toDate(beginAtStr);
         this.endAt  = toDate(endAtStr);
-        //Log.i(DEBUGTAG, id+":"+name+":"+beginAtStr+":"+endAtStr);
+        Log.i(DEBUGTAG, id+":"+name+":"+beginAtStr+":"+endAtStr);
     }
 
     public AcademicCalendar(JSONObject jo) throws JSONException {

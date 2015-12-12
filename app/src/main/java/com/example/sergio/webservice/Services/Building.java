@@ -37,7 +37,7 @@ public class Building extends WebService {
             name  = jo.getString("name");
             latitude = jo.getDouble("latitude");
             longitude = jo.getDouble("longitude");
-            //Log.i(DEBUGTAG, id+":"+name+":"+latitude+":"+longitude);
+            Log.i(DEBUGTAG, id+":"+name+":"+latitude+":"+longitude);
         }catch (JSONException e){
             Log.e(DEBUGTAG,e.getMessage());
         }

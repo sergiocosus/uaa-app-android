@@ -45,7 +45,7 @@ public class Offer extends WebService {
             campus = jo.getString("campus");
             url = jo.getString("url");
 
-            //Log.i(DEBUGTAG, id+":"+name+":"+educativeCenter+":"+campus+":"+url);
+            Log.i(DEBUGTAG, id+":"+name+":"+educativeCenter+":"+campus+":"+url);
         }catch (JSONException e){
             Log.e(DEBUGTAG,e.getMessage());
         }

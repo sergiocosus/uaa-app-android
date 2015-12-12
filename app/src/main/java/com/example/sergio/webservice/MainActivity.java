@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sergio.webservice.Database.AcademicCalendarSQLite;
 import com.example.sergio.webservice.Services.AcademicCalendar;
 import com.example.sergio.webservice.Services.Auth;
 import com.example.sergio.webservice.Services.Building;
@@ -28,8 +27,8 @@ import cz.msebera.android.httpclient.Header;
 public class MainActivity extends AppCompatActivity {
 
     private  final  String DEBUGTAG ="@MainActivity";
-    private EditText  edId;
-    private EditText edMarca;
+    private EditText  id;
+    private EditText password;
     private Button[] botones;
     private TextView txtResultado;
 
@@ -41,35 +40,19 @@ public class MainActivity extends AppCompatActivity {
 
         WebService.setContext(this);
 
+
+
         this.iniciarElementos();
         this.iniciarListener();
     }
 
     private void iniciarListener(){
-       /* AcademicCalendarSQLite sqLite = new AcademicCalendarSQLite(this,"app.db",null,1);
-
-        Log.d("DATABASE", ( sqLite.getAll().get(0)).name);
-*/
         View.OnClickListener l= new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.btnCrearRegistro:
-                        Auth.logout(new DataReadyListener() {
-                            @Override
-                            public void onSuccess(List objects) {
-                                Log.i(DEBUGTAG,"Deslogueado!");
-                            }
-
-                            @Override
-                            public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
-                            }
-                        });
-//
-                        break;
-                    case R.id.btnLeerRegistro:
-                        Auth.login("150795", "070993", new DataReadyListener() {
+                        Auth.login(id.getText().toString(), password.getText().toString(), new DataReadyListener() {
                             @Override
                             public void onSuccess(List objects) {
                                 Toast.makeText(MainActivity.this, "Logeadoooo", Toast.LENGTH_LONG).show();
@@ -82,37 +65,87 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                         break;
-                    case R.id.btnActualizarRegistro:
+
+                    case R.id.btnLeerRegistro:
+                        Auth.logout(new DataReadyListener() {
+                            @Override
+                            public void onSuccess(List objects) {
+                                Log.i(DEBUGTAG, "Deslogueado!");
+                            }
+
+                            @Override
+                            public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        break;
+
+                    case R.id.btnAcademicCalendar:
+                        AcademicCalendar.getAcademicCalendar(new DataReadyListener() {
+                            @Override
+                            public void onSuccess(List objects) {
+                                AcademicCalendar academicCalendar = (AcademicCalendar) objects.get(0);
+                                Toast.makeText(MainActivity.this, academicCalendar.name, Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                        break;
+                    case R.id.btnBuildings:
+                        Building.getBuildings(new DataReadyListener() {
+                            @Override
+                            public void onSuccess(List objects) {
+                                Toast.makeText(MainActivity.this, "Datos obtenidos de ubicaciones", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        break;
+                    case R.id.btnExamSchedule:
                         ExamSchedule.getExamSchedules(new DataReadyListener() {
                             @Override
                             public void onSuccess(List objects) {
-                                ExamSchedule examSchedule = (ExamSchedule)objects.get(0);
-                                Toast.makeText(MainActivity.this,examSchedule.subjectName, Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, "Datos obtenidos de Promacacion de examenes", Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
-
                             }
                         });
-
                         break;
-                    case R.id.btnBorrarRegistro:
+                    case R.id.btnOffer:
+                        Offer.getOffers(new DataReadyListener() {
+                            @Override
+                            public void onSuccess(List objects) {
+                                Toast.makeText(MainActivity.this, "Datos obtenidos de Oferta", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        break;
+                    case R.id.btnSchedule:
                         Schedule.getSchedules(new DataReadyListener() {
                             @Override
                             public void onSuccess(List objects) {
-                                Toast.makeText(MainActivity.this, "Datos obtenidos de Horario de Horarios de clases", Toast.LENGTH_LONG).show();
-
+                                Toast.makeText(MainActivity.this, "Datos obtenidos de horario de clases", Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(MainActivity.this, responseString, Toast.LENGTH_LONG).show();
-
                             }
                         });
-                        break;
                 }
             }
         };
@@ -123,15 +156,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void iniciarElementos(){
-        edId = (EditText) findViewById(R.id.edid);
-        edMarca =(EditText) findViewById(R.id.edmarca);
-        txtResultado =(TextView) findViewById(R.id.txtResultado);
+        id = (EditText) findViewById(R.id.txtId);
+        password =(EditText) findViewById(R.id.txtpassword);
 
         botones = new Button[]{
                 (Button) findViewById(R.id.btnCrearRegistro),
                 (Button) findViewById(R.id.btnLeerRegistro),
-                (Button) findViewById(R.id.btnActualizarRegistro),
-                (Button) findViewById(R.id.btnBorrarRegistro)
+                (Button) findViewById(R.id.btnAcademicCalendar),
+                (Button) findViewById(R.id.btnBuildings),
+                (Button) findViewById(R.id.btnExamSchedule),
+                (Button) findViewById(R.id.btnOffer),
+                (Button) findViewById(R.id.btnSchedule)
         };
     }
 
