@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.sergio.webservice.MenuPrincipal">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="com.uaa.pandroid.Logeado$PlaceholderFragment">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="260px"
+                android:id="@+id/fondo"
+                android:scaleType="fitXY"
+
+                android:layout_toRightOf="@+id/imageButton" />
+
+            <Button android:id="@+id/btnHistoria"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Historia"
+                android:layout_below="@+id/fondo"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+
+            <Button android:id="@+id/btnOferta"
+                android:layout_below="@+id/btnCalendario"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Oferta Educativa"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                />
+
+            <Button android:id="@+id/btnCalendario"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Calendario académico"
+                android:layout_below="@+id/btnHistoria"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+
+            <Button android:id="@+id/btnHorario"
+                android:layout_below="@+id/btnGaleria"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Horario"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:visibility="gone"/>
+
+            <Button android:id="@+id/btnExamenes"
+                android:layout_below="@+id/btnHorario"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Calendario Exámenes"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:visibility="gone"/>
+
+            <Button android:id="@+id/btnMapa"
+                android:layout_below="@+id/btnExamenes"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Mapa"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"></LinearLayout>
+
+            <Button android:id="@+id/btnGaleria"
+                android:layout_below="@+id/btnOferta"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Galeria"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/btnUsuario"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@mipmap/usuario"
+
+            />
+
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
