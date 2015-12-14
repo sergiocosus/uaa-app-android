@@ -5,10 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.sergio.webservice.Services.Building;
+import com.example.sergio.webservice.Services.DataReadyListener;
+import com.example.sergio.webservice.Services.WebService;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class ActivityMaps extends AppCompatActivity {
 
@@ -18,17 +25,38 @@ public class ActivityMaps extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
+        WebService.setContext(this);
         this.initMap();
         this.addMartker();
     }
 
     private  void addMartker(){
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(21.9135183, -102.3157933))
-                .title("Edificio 55")
-                .snippet("Estamos cerca de aquí")
-                .draggable(false));
+        Building.getBuildings(new DataReadyListener() {
+            @Override
+            public void onSuccess(List objects) {
+                List<Building> list = objects;
+                for (int i = 0; i < objects.size(); i++) {
+                    Building building = list.get(i);
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(building.latitude, building.longitude))
+                            .title(building.name)
+                            .draggable(false));
+                }
+            }
+
+            @Override
+            public void onNoNetwork(List objects) {
+
+            }
+
+            @Override
+            public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+        });
+
+
+
     }
 
     private void initMap(){
