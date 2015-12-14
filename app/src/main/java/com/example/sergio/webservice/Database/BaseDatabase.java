@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.sergio.webservice.Services.ExamSchedule;
+import com.example.sergio.webservice.Services.WebService;
 
 /**
  * Created by sergio on 12/11/15.
@@ -13,8 +14,8 @@ public  abstract class BaseDatabase extends SQLiteOpenHelper {
     protected abstract String tableName ();
 
     protected  Context context;
-    public BaseDatabase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public BaseDatabase(Context context) {
+        super(context, WebService.database, null, 1);
         this.context = context;
     }
 

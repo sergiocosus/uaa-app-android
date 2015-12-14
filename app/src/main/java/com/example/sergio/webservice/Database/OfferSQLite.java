@@ -28,8 +28,8 @@ public class OfferSQLite extends BaseDatabase {
                 "    PRIMARY KEY (id))";
     }
 
-    public OfferSQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public OfferSQLite(Context context) {
+        super(context);
     }
 
 

@@ -2,6 +2,7 @@ package com.example.sergio.webservice.Services;
 
 import android.util.Log;
 
+import com.example.sergio.webservice.Database.AcademicCalendarSQLite;
 import com.example.sergio.webservice.Database.BuildingSQLite;
 import com.example.sergio.webservice.Database.ExamScheduleSQLite;
 
@@ -66,32 +67,38 @@ public class ExamSchedule extends WebService {
     }
 
     public static void getExamSchedules(final DataReadyListener dataReadyListener){
-        get("exam-schedule", new JsonCustomHandler(){
-            @Override
-            public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
-                List<ExamSchedule> thisList = new ArrayList<>();
-                try {
-                    ExamScheduleSQLite sql = new ExamScheduleSQLite(context, database,null,1);
-                    sql.deleteAll();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        ExamSchedule examSchedule = new ExamSchedule(jsonArray.getJSONObject(i));
-                        thisList.add(examSchedule);
-                        sql.insert(examSchedule);
+        if(isConnected()){
+            get("exam-schedule", new JsonCustomHandler(){
+                @Override
+                public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                    List<ExamSchedule> thisList = new ArrayList<>();
+                    try {
+                        ExamScheduleSQLite sql = new ExamScheduleSQLite(context);
+                        sql.deleteAll();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            ExamSchedule examSchedule = new ExamSchedule(jsonArray.getJSONObject(i));
+                            thisList.add(examSchedule);
+                            sql.insert(examSchedule);
+                        }
+
+                        lastRequest = thisList;
+                        dataReadyListener.onSuccess(thisList);
+                    } catch (JSONException e) {
+                        Log.e(DEBUGTAG, e.getMessage());
+                        dataReadyListener.onSuccess(null);
                     }
-
-                    lastRequest = thisList;
-                    dataReadyListener.onSuccess(thisList);
-                } catch (JSONException e) {
-                    Log.e(DEBUGTAG, e.getMessage());
-                    dataReadyListener.onSuccess(null);
                 }
-            }
 
-            @Override
-            public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
-                dataReadyListener.onError(statusCode, headers, responseString,null);
-            }
+                @Override
+                public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                    dataReadyListener.onError(statusCode, headers, responseString,null);
+                }
 
-        });
+            });
+        }else{
+            ExamScheduleSQLite examScheduleSQLite = new ExamScheduleSQLite(context);
+            List <ExamSchedule> examSchedules = examScheduleSQLite.getAll();
+            dataReadyListener.onNoNetwork(examSchedules);
+        }
     }
 }

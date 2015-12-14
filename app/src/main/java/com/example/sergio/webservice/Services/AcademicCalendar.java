@@ -49,31 +49,37 @@ public class AcademicCalendar extends WebService {
     }
 
     public static void getAcademicCalendar(final DataReadyListener dataReadyListener){
-        get("academic-calendar", new JsonCustomHandler(){
-            @Override
-            public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
-                List<AcademicCalendar> thisList = new ArrayList<>();
-                try {
-                    AcademicCalendarSQLite sql = new AcademicCalendarSQLite(context, database,null,1);
-                    sql.deleteAll();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        AcademicCalendar academicCalendar = new AcademicCalendar(jsonArray.getJSONObject(i));
-                        thisList.add(academicCalendar);
-                        sql.insert(academicCalendar);
+        if(isConnected()){
+            get("academic-calendar", new JsonCustomHandler(){
+                @Override
+                public void globalSuccess(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                    List<AcademicCalendar> thisList = new ArrayList<>();
+                    try {
+                        AcademicCalendarSQLite sql = new AcademicCalendarSQLite(context);
+                        sql.deleteAll();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            AcademicCalendar academicCalendar = new AcademicCalendar(jsonArray.getJSONObject(i));
+                            thisList.add(academicCalendar);
+                            sql.insert(academicCalendar);
+                        }
+                        lastRequest = thisList;
+
+                        dataReadyListener.onSuccess(thisList);
+                    } catch (JSONException e) {
+                        Log.e(DEBUGTAG, e.getMessage());
+                        dataReadyListener.onSuccess(null);
                     }
-                    lastRequest = thisList;
-
-                    dataReadyListener.onSuccess(thisList);
-                } catch (JSONException e) {
-                    Log.e(DEBUGTAG, e.getMessage());
-                    dataReadyListener.onSuccess(null);
                 }
-            }
 
-            @Override
-            public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
-                dataReadyListener.onError(statusCode, headers, responseString,null);
-            }
-        });
+                @Override
+                public void globalError(int statusCode, Header[] headers, JSONArray jsonArray, JSONObject jsonObject, String responseString) {
+                    dataReadyListener.onError(statusCode, headers, responseString,null);
+                }
+            });
+        }else{
+            AcademicCalendarSQLite academicCalendar = new AcademicCalendarSQLite(context);
+            List <AcademicCalendar> academics = academicCalendar.getAll();
+            dataReadyListener.onNoNetwork(academics);
+        }
     }
 }

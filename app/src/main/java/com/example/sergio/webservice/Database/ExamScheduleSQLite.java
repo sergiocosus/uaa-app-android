@@ -33,8 +33,8 @@ public class ExamScheduleSQLite extends BaseDatabase {
                 "    PRIMARY KEY (id))";
     }
 
-    public ExamScheduleSQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public ExamScheduleSQLite(Context context) {
+        super(context);
     }
 
 

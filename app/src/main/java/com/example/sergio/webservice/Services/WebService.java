@@ -1,6 +1,8 @@
 package com.example.sergio.webservice.Services;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -33,7 +35,7 @@ public class WebService {
     protected static AsyncHttpClient client;
 
     protected static Context context;
-    protected static String database = "aapppp.db";
+    public static String database = "aapppp.db";
 
     public static void setContext(Context contexto){
         context = contexto;
@@ -70,6 +72,18 @@ public class WebService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public  static boolean isConnected(){
+        ConnectivityManager cm =
+                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if(activeNetwork == null){
+            return  false;
+        }else{
+            return activeNetwork.isConnectedOrConnecting();
+        }
     }
 
 
