@@ -6,15 +6,28 @@ android {
 
     defaultConfig {
         applicationId "com.example.sergio.webservice"
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        config {
+            keyAlias 'uaa'
+            keyPassword 'pato2000'
+            storePassword 'pato2000'
+            storeFile file('../../mao.jks')
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
 }
@@ -24,4 +37,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.android.support:design:23.1.1'
+    compile 'com.google.android.gms:play-services-maps:8.3.0'
+
 }
