@@ -137,7 +137,10 @@ public class PlanesEstudioE extends Activity  {
 
                     }
 
+                    @Override
+                    public void onNoNetwork(List objects) {
 
+                    }
                 });
             }
 
@@ -192,6 +195,11 @@ public class PlanesEstudioE extends Activity  {
 
                     @Override
                     public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onNoNetwork(List objects) {
 
                     }
                 });

@@ -152,6 +152,11 @@ public class LoginActivity extends AppCompatActivity{
                 public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     Toast.makeText(LoginActivity.this, "Datos Incorrectos, intente nuevamente", Toast.LENGTH_LONG).show();
                 }
+
+                @Override
+                public void onNoNetwork(List objects) {
+
+                }
             });
         }
 
