@@ -12,9 +12,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.sergio.webservice.Services.Building;
@@ -27,6 +30,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -53,11 +57,13 @@ public class ActivityMaps extends AppCompatActivity implements
     private static int DISPLACEMENT = 1; // 10 meters
     // UI elements
 
+    List<Building> requestedList;
+    ArrayAdapter<String> arrayAdapter ;
     public double lat;
     public double lon;
 
 
-
+Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +71,49 @@ public class ActivityMaps extends AppCompatActivity implements
         setContentView(R.layout.activity_maps);
         WebService.setContext(this);
 
+         requestedList =  new ArrayList<Building>();;
+        spinner = (Spinner)findViewById(R.id.spinner);
 
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selected = spinner.getSelectedItem().toString();
+                for(int i=0; i<requestedList.size(); i++){
+                    Building building =requestedList.get(i);
 
+                    if (selected.equals("TODOS")) {
+                        mMap.clear();
+                        fillMarkers(requestedList);
+
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(lat, lon))
+                                .title("Aquí toy yo!")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                .draggable(false));
+                    }
+
+                    if (selected.equals(building.name)) {
+                        mMap.clear();
+
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(building.latitude, building.longitude))
+                                .title(building.name)
+                                .draggable(false));
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(lat, lon))
+                                .title("Aquí toy yo!")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                .draggable(false));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         this.initMap();
         this.addMartkersFromWebService();
@@ -123,13 +170,33 @@ public class ActivityMaps extends AppCompatActivity implements
     }
 
     private void  fillMarkers(List<Building> list){
+        requestedList = list;
         for (int i = 0; i < list.size(); i++) {
             Building building = list.get(i);
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(building.latitude, building.longitude))
                     .title(building.name)
                     .draggable(false));
+
         }
+
+    }
+
+    private void fillSpinner(List<Building> list){
+
+        List<String> spinnerArray =  new ArrayList<String>();
+        spinnerArray.add("TODOS");
+        for (int i = 0; i < list.size(); i++) {
+            Building building = list.get(i);
+            spinnerArray.add(building.name);
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, spinnerArray);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
     }
 
     private  void addMartkersFromWebService(){
@@ -137,11 +204,13 @@ public class ActivityMaps extends AppCompatActivity implements
             @Override
             public void onSuccess(List objects) {
                 fillMarkers(objects);
+                fillSpinner(objects);
             }
 
             @Override
             public void onNoNetwork(List objects) {
                 fillMarkers(objects);
+                fillSpinner(objects);
             }
 
             @Override
@@ -238,7 +307,7 @@ public class ActivityMaps extends AppCompatActivity implements
             lon = mLastLocation.getLongitude();
 
             //TODO
-            mMap.addMarker( new MarkerOptions()
+            mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(lat, lon))
                     .title("Aquí toy yo!")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
