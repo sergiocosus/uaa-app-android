@@ -19,6 +19,7 @@ public class CalendarioPublicoEE extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendario_publico_ee);
 
+
         calendar = (CalendarView) findViewById(R.id.calendarView);
 
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
