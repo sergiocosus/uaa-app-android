@@ -7,6 +7,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,9 +106,21 @@ Spinner spinner;
                                 .title("Aquí toy yo!")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                                 .draggable(false));
+
+                        PolylineOptions options = new PolylineOptions();
+
+                        options.color( Color.parseColor("#CC0000FF") );
+                        options.width(5);
+                        options.visible(true);
+
+
+                            options.add(new LatLng(building.latitude, building.longitude));
+                            options.add( new LatLng(lat, lon) );
+
+
+                        mMap.addPolyline( options );
                     }
                 }
-
             }
 
             @Override
