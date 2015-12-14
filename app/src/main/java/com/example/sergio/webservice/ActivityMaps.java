@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import com.example.sergio.webservice.Services.Building;
 import com.example.sergio.webservice.Services.DataReadyListener;
 import com.example.sergio.webservice.Services.WebService;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -27,36 +28,7 @@ public class ActivityMaps extends AppCompatActivity {
         setContentView(R.layout.activity_maps);
         WebService.setContext(this);
         this.initMap();
-        this.addMartker();
-    }
-
-    private  void addMartker(){
-        Building.getBuildings(new DataReadyListener() {
-            @Override
-            public void onSuccess(List objects) {
-                List<Building> list = objects;
-                for (int i = 0; i < objects.size(); i++) {
-                    Building building = list.get(i);
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(building.latitude, building.longitude))
-                            .title(building.name)
-                            .draggable(false));
-                }
-            }
-
-            @Override
-            public void onNoNetwork(List objects) {
-
-            }
-
-            @Override
-            public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
-            }
-        });
-
-
-
+        this.addMartkersFromWebService();
     }
 
     private void initMap(){
@@ -66,6 +38,38 @@ public class ActivityMaps extends AppCompatActivity {
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
         mMap.setContentDescription("Edificios de la UAA");
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(21.9145483, -102.3149566), 16.5f));
+
+    }
+
+
+    private void  fillMarkers(List<Building> list){
+        for (int i = 0; i < list.size(); i++) {
+            Building building = list.get(i);
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(building.latitude, building.longitude))
+                    .title(building.name)
+                    .draggable(false));
+        }
+    }
+
+    private  void addMartkersFromWebService(){
+        Building.getBuildings(new DataReadyListener() {
+            @Override
+            public void onSuccess(List objects) {
+                fillMarkers(objects);
+            }
+
+            @Override
+            public void onNoNetwork(List objects) {
+                fillMarkers(objects);
+            }
+
+            @Override
+            public void onError(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+            }
+        });
     }
 
     @Override
