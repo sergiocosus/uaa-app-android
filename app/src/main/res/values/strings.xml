@@ -3,8 +3,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_calendario_publico_ee">CalendarioPublicoEE</string>
-    <string name="title_activity_galeria_imag_e">GaleriaImagE</string>
+    <string name="title_activity_calendario_publico_ee">Calendar</string>
+    <string name="title_activity_galeria_imag_e">Gallery</string>
     <string name="title_activity_historia_e">HistoriaE</string>
     <string name="TextoHistoria">Los antecedentes de nuestra institución se remontan al 15 de enero
         de 1867 cuando el gobernador del Estado, coronel J. Jesús Gómez Portugal, inaugura la Escuela de Agricultura,
