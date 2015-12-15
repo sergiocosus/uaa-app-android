@@ -52,6 +52,10 @@
             android:label="@string/title_activity_planes_estudio_e"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".HorarioMaterias"
+            android:label="@string/title_activity_planes_estudio_e"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".MenuPrincipal"
             android:label="@string/title_activity_menu_principal"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -59,6 +63,17 @@
         <activity
             android:name=".ActivityMaps"
             android:label="@string/title_activity_Maps"></activity>
+
+
+        <activity
+            android:name=".CalendarioAlternativo"
+            android:label="@string/title_activity_calendario_alternativo"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CalendarioN"
+            android:label="@string/title_activity_calendario_n"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
     </application>
 
 </manifest>

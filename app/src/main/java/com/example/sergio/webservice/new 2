@@ -1,0 +1,7 @@
+eneros['hiphop']
+PHP error:  Undefined index: hiphop on line 1
+>>> $generos->hiphop
+PHP error:  Trying to get property of non-object on line 1
+>>> $generos[0]->hiphop
+=> "0"
+>>> $generos[0]->rock

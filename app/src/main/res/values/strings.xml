@@ -30,6 +30,32 @@ Tuvieron que pasar 106 años para que el Instituto de Ciencias, partiendo de su 
         <item>Plan3</item>
 
     </string-array>
+
+    <string-array name="cabecera_tabla">
+        <item>Mo</item>
+        <item>Tu</item>
+        <item>We</item>
+        <item>Th</item>
+        <item>Fr</item>
+        <item>Sa</item>
+        <item>Su</item>
+    </string-array>
+
+    <string-array name="horario">
+        <item>08:00:00</item>
+        <item>09:00:00</item>
+        <item>10:00:00</item>
+        <item>11:00:00</item>
+
+        <item>12:00:00</item>
+        <item>13:00:00</item>
+        <item>14:00:00</item>
+        <item>15:00:00</item>
+        <item>16:00:00</item>
+        <item>17:00:00</item>
+
+    </string-array>
+
     <string name="title_activity_menu_principal">MenuPrincipal</string>
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_Maps">UAA Maps</string>
@@ -46,6 +72,8 @@ Tuvieron que pasar 106 años para que el Instituto de Ciencias, partiendo de su 
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_calendario_alternativo">CalendarioAlternativo</string>
+    <string name="title_activity_calendario_n">CalendarioN</string>
 
 
 </resources>

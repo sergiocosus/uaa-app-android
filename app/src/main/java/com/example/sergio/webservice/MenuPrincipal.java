@@ -79,6 +79,14 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
             startActivity(ventana);
 
         }
+
+        if(id==R.id.btnExamenes){
+            Intent ventana = new Intent();
+            ventana.setClass(getApplicationContext(),CalendarioAlternativo.class);
+            startActivity(ventana);
+
+        }
+
         if(id==R.id.btnCalendario){
 
             Intent ventana = new Intent();
