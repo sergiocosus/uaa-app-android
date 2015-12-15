@@ -1,4 +1,4 @@
-package com.example.sergio.webservice.VistasPublicasE;
+package com.example.sergio.webservice;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

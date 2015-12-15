@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.example.sergio.webservice.VistasPublicasE.CalendarioPublicoEE;
+import com.example.sergio.webservice.CalendarioPublicoEE;
 
 public class MenuPrincipal extends AppCompatActivity implements View.OnClickListener{
     private Button btncalendario,btnhistoria,btnoferta,btngaleria,btnmapa,btnexamenes,btnhorario;
