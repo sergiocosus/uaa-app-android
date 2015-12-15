@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.example.sergio.webservice.VistasPublicasE.CalendarioPublicoEE;
+import com.example.sergio.webservice.CalendarioPublicoEE;
 
 public class MenuPrincipal extends AppCompatActivity implements View.OnClickListener{
     private Button btncalendario,btnhistoria,btnoferta,btngaleria,btnmapa,btnexamenes,btnhorario;
@@ -89,7 +89,7 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
 
         if(id==R.id.btnOferta){
             Intent ventana = new Intent();
-            ventana.setClass(getApplicationContext(), MenuPrincipal.class);
+            ventana.setClass(getApplicationContext(), PlanesEstudioE.class);
             startActivity(ventana);
 
         }
@@ -103,6 +103,11 @@ public class MenuPrincipal extends AppCompatActivity implements View.OnClickList
 
         if(id==R.id.btnUsuario){
             LoginMetodo();
+        }
+        if(id==R.id.btnMapa){
+            Intent ventana = new Intent();
+            ventana.setClass(getApplicationContext(),ActivityMaps.class);
+            startActivity(ventana);
         }
 
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WebService</string>
+    <string name="app_name">UAA App</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -32,6 +32,7 @@ Tuvieron que pasar 106 años para que el Instituto de Ciencias, partiendo de su 
     </string-array>
     <string name="title_activity_menu_principal">MenuPrincipal</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_Maps">UAA Maps</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
